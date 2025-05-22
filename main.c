@@ -23,7 +23,9 @@ int main() {
                 // Untuk Mencocokkan Donasi
                 break;
             case 5:
-                // Donasi
+                // Untuk Menampilkan Laporan Donasi
+                break;
+            case 6:
                 return 0;
             default:
                 printf("Tolong Pilihlah Opsi yang sesuai!\n");
