@@ -11,18 +11,19 @@ int main() {
         scanf("%d", &opsi);
         switch (opsi) {
             case 1:
-                printf("1");
+                // Untuk Tambah Donatur
                 break;
             case 2:
-                printf("2");
+                // Untuk Tambah Penerima
                 break;
             case 3:
-                printf("3");
+                // Untuk Melihat Semua Data
                 break;
             case 4:
-                printf("4");
+                // Untuk Mencocokkan Donasi
                 break;
             case 5:
+                // Donasi
                 return 0;
             default:
                 printf("Tolong Pilihlah Opsi yang sesuai!\n");
