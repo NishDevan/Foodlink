@@ -3,6 +3,7 @@
 
 //constants
 #define MAX_DONATUR 100
+#define MAX_PENERIMA 100
 //kalau mau ada maksimum donatur, nanti tinggal if jumlahDonatur >= MAX_DONATUR, printf "maaf jumlah kapasitas donatur udah tercapai"
 
 //enum jenis makanan (opsional untuk dikembangin kedepan)
@@ -31,6 +32,9 @@ struct donatur daftarDonatur[MAX_DONATUR] = {
     {"Donatur D", "Nasi", 3, "Depok"}
 };
 int jumlahDonatur = 4;
+
+struct penerima daftarPenerima[MAX_PENERIMA];
+int jumlahPenerima = 0;
 
 //Functions =============================================================================
 
@@ -94,6 +98,36 @@ void cocokkanDonasi() {
 void tampilkanLaporan() {
 }
 
+void tampilkanData() {
+    printf("\n=== Data Donatur ===\n");
+    if (jumlahDonatur == 0) {
+        printf("Belum ada data donatur.\n");
+    } else {
+        for (int i = 0; i < jumlahDonatur; i++) {
+            printf("Donatur %d:\n", i + 1);
+            printf("Nama     : %s\n", daftarDonatur[i].nama);
+            printf("Makanan  : %s\n", daftarDonatur[i].jenisMakanan);
+            printf("Jumlah   : %d\n", daftarDonatur[i].jumlah);
+            printf("Lokasi   : %s\n", daftarDonatur[i].lokasi);
+            printf("-----------------------------\n");
+        }
+    }
+
+    printf("\n=== Data Penerima ===\n");
+    if (jumlahPenerima == 0) {
+        printf("Belum ada data penerima.\n");
+    } else {
+        for (int i = 0; i < jumlahPenerima; i++) {
+            printf("Penerima %d:\n", i + 1);
+            printf("Nama     : %s\n", daftarPenerima[i].nama);
+            printf("Kebutuhan: %s\n", daftarPenerima[i].kebutuhan);
+            printf("Jumlah   : %d\n", daftarPenerima[i].jumlah);
+            printf("Lokasi   : %s\n", daftarPenerima[i].lokasi);
+            printf("-----------------------------\n");
+        }
+    }
+}
+
 //================================================================================================
 
 // Fungsi utama
@@ -119,7 +153,7 @@ int main() {
                 inputPenerima();
                 break;
             case 3:
-                printf("Fungsi belum diimplementasikan.\n");
+                tampilkanData();
                 break;
             case 4:
                 cocokkanDonasi();
