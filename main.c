@@ -1,14 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 
-//constants
+// Constants
 #define MAX_DONATUR 100
-//kalau mau ada maksimum donatur, nanti tinggal if jumlahDonatur >= MAX_DONATUR, printf "maaf jumlah kapasitas donatur udah tercapai"
+#define MAX_PENERIMA 100
 
-//enum jenis makanan (opsional untuk dikembangin kedepan)
-enum jenisMakanan {KARBOHIDRAT, PROTEIN, SAYURAN, LAINNYA};
-
-//structure data
+// Struktur data
 struct donatur {
     char nama[50];
     char jenisMakanan[50];
@@ -23,18 +20,14 @@ struct penerima {
     char lokasi[50];
 };
 
-//array donatur (data dummy)
-struct donatur daftarDonatur[MAX_DONATUR] = {
-    {"Donatur A", "Nasi", 10, "Jakarta"},
-    {"Donatur B", "Roti", 5, "Bandung"},
-    {"Donatur C", "Nasi", 8, "Jakarta"},
-    {"Donatur D", "Nasi", 3, "Depok"}
-};
-int jumlahDonatur = 4;
+// Array dan jumlah data
+struct donatur daftarDonatur[MAX_DONATUR];
+int jumlahDonatur = 0;
 
-//Functions =============================================================================
+struct penerima daftarPenerima[MAX_PENERIMA];
+int jumlahPenerima = 0;
 
-//Fungsi untuk menghitung skor kecocokan
+// Fungsi untuk menghitung skor kecocokan
 int hitungSkorKecocokan(struct penerima p, struct donatur d) {
     int skor = 0;
     if (strcmp(p.kebutuhan, d.jenisMakanan) == 0) skor++;
@@ -43,10 +36,37 @@ int hitungSkorKecocokan(struct penerima p, struct donatur d) {
     return skor;
 }
 
-//Fungsi input penerima (request) dan cari donatur paling cocok
-void inputPenerima() {
-    struct penerima p;
+// Fungsi menambahkan donatur
+void inputDonatur() {
+    if (jumlahDonatur >= MAX_DONATUR) {
+        printf("Kapasitas maksimum donatur telah tercapai.\n");
+        return;
+    }
 
+    struct donatur d;
+    printf("\n=== Input Data Donatur ===\n");
+    printf("Nama Donatur       : ");
+    scanf(" %[^\n]", d.nama);
+    printf("Jenis Makanan      : ");
+    scanf(" %[^\n]", d.jenisMakanan);
+    printf("Jumlah             : ");
+    scanf("%d", &d.jumlah);
+    printf("Lokasi             : ");
+    scanf(" %[^\n]", d.lokasi);
+
+    daftarDonatur[jumlahDonatur] = d;  // Simpan ke array
+    jumlahDonatur++;                   // Tambah jumlah
+    printf("Donatur berhasil ditambahkan.\n");
+}
+
+// Fungsi menambahkan penerima dan cari donatur paling cocok
+void inputPenerima() {
+    if (jumlahPenerima >= MAX_PENERIMA) {
+        printf("Kapasitas maksimum penerima telah tercapai.\n");
+        return;
+    }
+
+    struct penerima p;
     printf("\n=== Input Data Penerima ===\n");
     printf("Nama Penerima        : ");
     scanf(" %[^\n]", p.nama);
@@ -57,7 +77,10 @@ void inputPenerima() {
     printf("Lokasi Penerima      : ");
     scanf(" %[^\n]", p.lokasi);
 
-    // Pencarian donatur paling cocok
+    daftarPenerima[jumlahPenerima] = p;  // Simpan ke array
+    jumlahPenerima++;                    // Tambah jumlah
+
+    // Cari donatur paling cocok
     int maxSkor = -1;
     int indeksTerbaik = -1;
 
@@ -73,7 +96,7 @@ void inputPenerima() {
     printf("\n=== Hasil Pencocokan ===\n");
     if (indeksTerbaik != -1 && maxSkor > 0) {
         struct donatur d = daftarDonatur[indeksTerbaik];
-        printf("Penerima \"%s\" paling cocok dengan donatur:\n", p.nama);
+        printf("Penerima \"%s\" cocok dengan donatur:\n", p.nama);
         printf("Nama Donatur : %s\n", d.nama);
         printf("Jenis        : %s\n", d.jenisMakanan);
         printf("Jumlah       : %d\n", d.jumlah);
@@ -84,56 +107,63 @@ void inputPenerima() {
     }
 }
 
-// Placeholder functions
-void inputDonatur() {
+// Fungsi menampilkan semua data
+void tampilkanSemuaData() {
+    printf("\n=== Daftar Donatur ===\n");
+    for (int i = 0; i < jumlahDonatur; i++) {
+        printf("%d. %s - %s - %d - %s\n", i + 1,
+               daftarDonatur[i].nama,
+               daftarDonatur[i].jenisMakanan,
+               daftarDonatur[i].jumlah,
+               daftarDonatur[i].lokasi);
+    }
+
+    printf("\n=== Daftar Penerima ===\n");
+    for (int i = 0; i < jumlahPenerima; i++) {
+        printf("%d. %s - %s - %d - %s\n", i + 1,
+               daftarPenerima[i].nama,
+               daftarPenerima[i].kebutuhan,
+               daftarPenerima[i].jumlah,
+               daftarPenerima[i].lokasi);
+    }
 }
 
+// Fungsi lain (placeholder)
 void cocokkanDonasi() {
+    printf("Fungsi pencocokan donasi banyak belum diimplementasi.\n");
 }
 
 void tampilkanLaporan() {
+    printf("Fungsi laporan donasi belum diimplementasi.\n");
 }
-
-//================================================================================================
 
 // Fungsi utama
 int main() {
-    int opsi = 0;
-    printf("Selamat Datang dalam Program Foodlink!\n");
+    int opsi = -1;
 
-    do {
-        printf("\nMenu Utama\n");
+    printf("Selamat Datang di Program Foodlink!\n");
+
+    while (opsi != 0) {
+        printf("\nMenu Utama:\n");
         printf("1. Tambah Donatur\n");
         printf("2. Tambah Penerima\n");
         printf("3. Lihat Semua Data\n");
         printf("4. Cocokkan Donasi\n");
         printf("5. Tampilkan Laporan Donasi\n");
-        printf("Pilihlah Opsi yang Anda ingin Lakukan (1-5) : ");
+        printf("0. Keluar\n");
+        printf("Pilih opsi (0-5): ");
         scanf("%d", &opsi);
 
         switch (opsi) {
-            case 1:
-                inputDonatur();
-                break;
-            case 2:
-                inputPenerima();
-                break;
-            case 3:
-                printf("Fungsi belum diimplementasikan.\n");
-                break;
-            case 4:
-                cocokkanDonasi();
-                break;
-            case 5:
-                tampilkanLaporan();
-                break;
-            default:
-                printf("Tolong Pilihlah Opsi yang sesuai!\n");
-                break;
+            case 1: inputDonatur(); break;
+            case 2: inputPenerima(); break;
+            case 3: tampilkanSemuaData(); break;
+            case 4: cocokkanDonasi(); break;
+            case 5: tampilkanLaporan(); break;
+            case 0: printf("Terima kasih telah menggunakan Foodlink!\n"); break;
+            default: printf("Opsi tidak valid. Coba lagi.\n");
         }
-    } while(opsi != 5);
+    }
 
-    printf("Terima kasih telah menggunakan Foodlink!\n");
     return 0;
 }
-
