@@ -32,21 +32,6 @@ int hitungSkorKecocokan(Penerima *p, Donatur *d) {
     return skor;
 }
 
-
-void cocokkanDonasi() {
-    printf("\n=== Proses Pencocokan Massal ===\n");
-    for (int i = 0; i < jumlahPenerima; i++) {
-        printf("\nPenerima %s:\n", daftarPenerima[i].nama);
-        
-    }
-}
-
-void tampilkanLaporan() {
-    printf("\n=== Laporan Ringkas ===\n");
-    printf("Jumlah Donatur  : %d\n", jumlahDonatur);
-    printf("Jumlah Penerima : %d\n", jumlahPenerima);
-}
-
 void inputDonatur() {
     if (jumlahDonatur >= MAX_DONATUR) {
         printf("Kapasitas maksimum donatur telah tercapai.\n");
@@ -101,20 +86,18 @@ void inputPenerima() {
     }
 
     printf("\n=== Hasil Pencocokan ===\n");
-    if (indeksTerbaik != -1 && maxSkor > 0) {
-        struct donatur d = daftarDonatur[indeksTerbaik];
-        printf("Penerima \"%s\" cocok dengan donatur:\n", p.nama);
-        printf("Nama Donatur : %s\n", d.nama);
-        printf("Jenis        : %s\n", d.jenisMakanan);
-        printf("Jumlah       : %d\n", d.jumlah);
-        printf("Lokasi       : %s\n", d.lokasi);
+    if (donaturTerbaik != NULL && maxSkor > 0) {
+        printf("Penerima \"%s\" cocok dengan donatur:\n", p->nama);
+        printf("Nama Donatur : %s\n", donaturTerbaik->nama);
+        printf("Jenis        : %s\n", donaturTerbaik->jenisMakanan);
+        printf("Jumlah       : %d\n", donaturTerbaik->jumlah);
+        printf("Lokasi       : %s\n", donaturTerbaik->lokasi);
         printf("Skor Kecocokan: %d dari 3\n", maxSkor);
     } else {
-        printf("Tidak ditemukan donatur yang cocok untuk \"%s\".\n", p.nama);
+        printf("Tidak ditemukan donatur yang cocok untuk \"%s\".\n", p->nama);
     }
 }
 
-//fungsi menampilkan semua data
 void tampilkanSemuaData() {
     printf("\n=== Daftar Donatur ===\n");
     for (int i = 0; i < jumlahDonatur; i++) {
@@ -129,6 +112,21 @@ void tampilkanSemuaData() {
         printf("%d. %s - %s - %d - %s\n", i + 1,
                p->nama, p->kebutuhan, p->jumlah, p->lokasi);
     }
+}
+
+void cocokkanDonasi() {
+    printf("\n=== Proses Pencocokan Massal ===\n");
+    for (int i = 0; i < jumlahPenerima; i++) {
+        printf("\nPenerima %s:\n", daftarPenerima[i].nama);
+        inputPenerima(&daftarPenerima[i]);
+    }
+}
+
+void tampilkanLaporan() {
+    printf("\n=== Laporan Ringkas ===\n");
+    printf("Jumlah Donatur  : %d\n", jumlahDonatur);
+    printf("Jumlah Penerima : %d\n", jumlahPenerima);
+    // Bisa ditambahkan statistik tambahan di sini
 }
 
 int main() {
@@ -170,5 +168,6 @@ int main() {
                 printf("Tolong Pilihlah Opsi yang sesuai!\n");
         }
     }
+
     return 0;
 }
