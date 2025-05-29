@@ -34,6 +34,7 @@ int main() {
         printf("1. Tambah Donatur\n2. Tambah Penerima\n3. Lihat Semua Data\n4. Cocokkan Donasi\n5. Tampilkan Laporan Donasi\n6. Keluar\n");
         printf("Pilihlah Opsi yang Anda ingin Lakukan (1-5) : ");
         scanf("%d", &opsi);
+        printf("\n");
         switch (opsi) {
             case 1:
                 // Untuk Tambah Donatur
@@ -48,10 +49,16 @@ int main() {
                 // Untuk Mencocokkan Donasi
                 break;
             case 5:
+<<<<<<< HEAD
                 // Untuk Menampilkan Donasi
                 break;
             case 6:
                 // Keluar
+=======
+                // Untuk Menampilkan Laporan Donasi
+                break;
+            case 6:
+>>>>>>> main
                 return 0;
             default:
                 printf("Tolong Pilihlah Opsi yang sesuai!\n");
@@ -60,6 +67,7 @@ int main() {
     } while(opsi != 5);
     return 0;
 }
+<<<<<<< HEAD
 
 void pilihJenisMakanan() {
     int pilihan;
@@ -87,3 +95,5 @@ void TambahDonatur(Donatur **donaturList, int *jumlahDonatur) {
     scanf(" %[^\n]", donatur->jenisMakanan);
     *donatur->jenisMakanan = pilihJenisMakanan();
 }
+=======
+>>>>>>> main
