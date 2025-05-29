@@ -164,68 +164,13 @@ struct penerima {
 };
 
 //array donatur (data dummy)
-struct donatur daftarDonatur[MAX_DONATUR] = {
-    {"Donatur A", "Nasi", 10, "Jakarta"},
-    {"Donatur B", "Roti", 5, "Bandung"},
-    {"Donatur C", "Nasi", 8, "Jakarta"},
-    {"Donatur D", "Nasi", 3, "Depok"}
-};
+struct donatur daftarDonatur[MAX_DONATUR];
 int jumlahDonatur = 4;
 
 struct penerima daftarPenerima[MAX_PENERIMA];
 int jumlahPenerima = 0;
 
 //Functions =============================================================================
-
-//Fungsi untuk menghitung skor kecocokan
-int hitungSkorKecocokan(struct penerima p, struct donatur d) {
-    int skor = 0;
-    if (strcmp(p.kebutuhan, d.jenisMakanan) == 0) skor++;
-    if (p.jumlah <= d.jumlah) skor++;
-    if (strcmp(p.lokasi, d.lokasi) == 0) skor++;
-    return skor;
-}
-
-//Fungsi input penerima (request) dan cari donatur paling cocok
-void inputPenerima() {
-    struct penerima p;
-
-    printf("\n=== Input Data Penerima ===\n");
-    printf("Nama Penerima        : ");
-    scanf(" %[^\n]", p.nama);
-    printf("Jenis Makanan Dibutuhkan : ");
-    scanf(" %[^\n]", p.kebutuhan);
-    printf("Jumlah Dibutuhkan    : ");
-    scanf("%d", &p.jumlah);
-    printf("Lokasi Penerima      : ");
-    scanf(" %[^\n]", p.lokasi);
-
-    // Pencarian donatur paling cocok
-    int maxSkor = -1;
-    int indeksTerbaik = -1;
-
-    for (int i = 0; i < jumlahDonatur; i++) {
-        int skor = hitungSkorKecocokan(p, daftarDonatur[i]);
-        if (skor > maxSkor) {
-            maxSkor = skor;
-            indeksTerbaik = i;
-        }
-    }
-
-    // Tampilkan hasil pencocokan
-    printf("\n=== Hasil Pencocokan ===\n");
-    if (indeksTerbaik != -1 && maxSkor > 0) {
-        struct donatur d = daftarDonatur[indeksTerbaik];
-        printf("Penerima \"%s\" paling cocok dengan donatur:\n", p.nama);
-        printf("Nama Donatur : %s\n", d.nama);
-        printf("Jenis        : %s\n", d.jenisMakanan);
-        printf("Jumlah       : %d\n", d.jumlah);
-        printf("Lokasi       : %s\n", d.lokasi);
-        printf("Skor Kecocokan: %d dari 3\n", maxSkor);
-    } else {
-        printf("Tidak ditemukan donatur yang cocok untuk \"%s\".\n", p.nama);
-    }
-}
 
 // Placeholder functions
 void inputDonatur() {
@@ -266,8 +211,6 @@ void tampilkanData() {
         }
     }
 }
-
-//================================================================================================
 
 // Fungsi utama
 int main() {
