@@ -8,9 +8,6 @@
 typedef enum { SUKMAJAYA, BEJI, CIMANGGIS, TUGU, LOKASI_INVALID } Lokasi;
 typedef enum { NASI, SAYUR, BUAH, DAGING, IKAN, JENIS_INVALID } JenisMakanan;
 
-const char* lokasiStr[] = {"Sukmajaya", "Beji", "Cimanggis", "Tugu"};
-const char* jenisStr[] = {"nasi", "sayur", "buah", "daging", "ikan"};
-
 typedef struct {
     char nama[50];
     JenisMakanan jenisMakanan;
@@ -33,14 +30,14 @@ typedef struct {
     int jumlahPenerima;
 } Database;
 
-Lokasi parseLokasi(const char* str) {
+Lokasi parseLokasi(const char* str, const char* lokasiStr[]) {
     for (int i = 0; i < 4; i++) {
         if (strcasecmp(str, lokasiStr[i]) == 0) return i;
     }
     return LOKASI_INVALID;
 }
 
-JenisMakanan parseJenis(const char* str) {
+JenisMakanan parseJenis(const char* str, const char* jenisStr[]) {
     for (int i = 0; i < 5; i++) {
         if (strcasecmp(str, jenisStr[i]) == 0) return i;
     }
@@ -55,7 +52,7 @@ int hitungSkorKecocokan(Penerima *p, Donatur *d) {
     return skor;
 }
 
-void inputDonatur(Database* db) {
+void inputDonatur(Database* db, const char* lokasiStr[], const char* jenisStr[]) {
     if (db->jumlahDonatur >= MAX_DONATUR) {
         printf("Kapasitas maksimum donatur telah tercapai.\n");
         return;
@@ -70,7 +67,7 @@ void inputDonatur(Database* db) {
     char jenis[50];
     printf("Jenis Makanan (nasi, sayur, buah, daging, ikan): ");
     scanf(" %[^\n]", jenis);
-    d->jenisMakanan = parseJenis(jenis);
+    d->jenisMakanan = parseJenis(jenis, jenisStr);
     if (d->jenisMakanan == JENIS_INVALID) {
         printf("Jenis makanan tidak valid.\n");
         return;
@@ -83,7 +80,7 @@ void inputDonatur(Database* db) {
     char lokasi[50];
     printf("Lokasi (Sukmajaya, Beji, Cimanggis, Tugu): ");
     scanf(" %[^\n]", lokasi);
-    d->lokasi = parseLokasi(lokasi);
+    d->lokasi = parseLokasi(lokasi, lokasiStr);
     if (d->lokasi == LOKASI_INVALID) {
         printf("Lokasi tidak valid.\n");
         return;
@@ -94,7 +91,7 @@ void inputDonatur(Database* db) {
     printf("Donatur berhasil ditambahkan.\n");
 }
 
-void inputPenerima(Database* db) {
+void inputPenerima(Database* db, const char* lokasiStr[], const char* jenisStr[]) {
     if (db->jumlahPenerima >= MAX_PENERIMA) {
         printf("Kapasitas maksimum penerima telah tercapai.\n");
         return;
@@ -109,7 +106,7 @@ void inputPenerima(Database* db) {
     char jenis[50];
     printf("Jenis Makanan Dibutuhkan (nasi, sayur, buah, daging, ikan): ");
     scanf(" %[^\n]", jenis);
-    p->kebutuhan = parseJenis(jenis);
+    p->kebutuhan = parseJenis(jenis, jenisStr);
     if (p->kebutuhan == JENIS_INVALID) {
         printf("Jenis makanan tidak valid.\n");
         return;
@@ -122,7 +119,7 @@ void inputPenerima(Database* db) {
     char lokasi[50];
     printf("Lokasi Penerima (Sukmajaya, Beji, Cimanggis, Tugu): ");
     scanf(" %[^\n]", lokasi);
-    p->lokasi = parseLokasi(lokasi);
+    p->lokasi = parseLokasi(lokasi, lokasiStr);
     if (p->lokasi == LOKASI_INVALID) {
         printf("Lokasi tidak valid.\n");
         return;
@@ -132,7 +129,7 @@ void inputPenerima(Database* db) {
     printf("Penerima berhasil ditambahkan.\n");
 }
 
-void tampilkanSemuaData(Database* db) {
+void tampilkanSemuaData(Database* db, const char* lokasiStr[], const char* jenisStr[]) {
     printf("\n=== Daftar Donatur ===\n");
     for (int i = 0; i < db->jumlahDonatur; i++) {
         Donatur *d = &db->daftarDonatur[i];
@@ -148,7 +145,7 @@ void tampilkanSemuaData(Database* db) {
     }
 }
 
-void cocokkanDonasi(Database* db) {
+void cocokkanDonasi(Database* db, const char* lokasiStr[], const char* jenisStr[]) {
     printf("\n=== Pencocokan Donasi ===\n");
     for (int i = 0; i < db->jumlahPenerima; i++) {
         Penerima *p = &db->daftarPenerima[i];
@@ -183,6 +180,10 @@ void tampilkanLaporan(Database* db) {
 
 int main() {
     Database db = {0};
+
+    const char* lokasiStr[] = {"Sukmajaya", "Beji", "Cimanggis", "Tugu"};
+    const char* jenisStr[] = {"nasi", "sayur", "buah", "daging", "ikan"};
+
     int opsi = -1;
     printf("Selamat Datang di Program Foodlink!\n");
 
@@ -199,10 +200,10 @@ int main() {
         getchar();
 
         switch (opsi) {
-            case 1: inputDonatur(&db); break;
-            case 2: inputPenerima(&db); break;
-            case 3: tampilkanSemuaData(&db); break;
-            case 4: cocokkanDonasi(&db); break;
+            case 1: inputDonatur(&db, lokasiStr, jenisStr); break;
+            case 2: inputPenerima(&db, lokasiStr, jenisStr); break;
+            case 3: tampilkanSemuaData(&db, lokasiStr, jenisStr); break;
+            case 4: cocokkanDonasi(&db, lokasiStr, jenisStr); break;
             case 5: tampilkanLaporan(&db); break;
             case 0: printf("Terima kasih telah menggunakan Foodlink!\n"); break;
             default: printf("Opsi tidak valid!\n");
