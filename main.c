@@ -2,6 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef enum {
+    BERAS,
+    SAYUR,
+    BUAH,
+    ROTI,
+    LAINNYA
+} JenisMakanan;
+
+char namaJenisMakanan[5][20] = {"Beras", "Sayur", "Buah", "Roti", "Lainnya"};
+
 typedef struct {
     char namaDonatur[50];
     char jenisMakanan[30];
@@ -51,8 +61,29 @@ int main() {
     return 0;
 }
 
-void TambahDonatur(Donatur *donaturList, int *jumlahDonatur) {
+void pilihJenisMakanan() {
+    int pilihan;
+    printf("Pilih Jenis Makanan:\n");
+    for (int i = 1; i < 5; i++) {
+        printf("%d. %s\n", i, namaJenisMakanan[i]);
+    }
+    printf("Pilihan: ");
+    scanf("%d", &pilihan);
+    if (pilihan >= 1 && pilihan <= 5) {
+        return (JenisMakanan)pilihan;
+    } else {
+        printf("Pilihan tidak valid, diatur ke 'Lainnya',\n");
+        return LAINNYA;
+    }
+}
+
+void TambahDonatur(Donatur **donaturList, int *jumlahDonatur) {
     *donaturList = realloc(*donaturList, (*jumlahDonatur + 1) * sizeof(Donatur));
     Donatur *donatur = &(*donaturList)[*jumlahDonatur];
     
+    printf("Nama Donatur : ");
+    scanf(" %[^\n]", donatur->namaDonatur);
+    printf("Jenis Makanan : ");
+    scanf(" %[^\n]", donatur->jenisMakanan);
+    *donatur->jenisMakanan = pilihJenisMakanan();
 }
