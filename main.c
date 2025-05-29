@@ -51,7 +51,7 @@ void inputDonatur() {
     scanf(" %[^\n]", d->lokasi);
 
     jumlahDonatur++;                  
-    printf("✅ Donatur berhasil ditambahkan.\n");
+    printf("Donatur berhasil ditambahkan.\n");
 }
 
 void inputPenerima() {
