@@ -86,47 +86,47 @@ void inputPenerima() {
     }
 
     printf("\n=== Hasil Pencocokan ===\n");
-    if (donaturTerbaik != NULL && maxSkor > 0) {
-        printf("Penerima \"%s\" cocok dengan donatur:\n", p->nama);
-        printf("Nama Donatur : %s\n", donaturTerbaik->nama);
-        printf("Jenis        : %s\n", donaturTerbaik->jenisMakanan);
-        printf("Jumlah       : %d\n", donaturTerbaik->jumlah);
-        printf("Lokasi       : %s\n", donaturTerbaik->lokasi);
+    if (indeksTerbaik != -1 && maxSkor > 0) {
+        struct donatur d = daftarDonatur[indeksTerbaik];
+        printf("Penerima \"%s\" cocok dengan donatur:\n", p.nama);
+        printf("Nama Donatur : %s\n", d.nama);
+        printf("Jenis        : %s\n", d.jenisMakanan);
+        printf("Jumlah       : %d\n", d.jumlah);
+        printf("Lokasi       : %s\n", d.lokasi);
         printf("Skor Kecocokan: %d dari 3\n", maxSkor);
     } else {
-        printf("Tidak ditemukan donatur yang cocok untuk \"%s\".\n", p->nama);
+        printf("Tidak ditemukan donatur yang cocok untuk \"%s\".\n", p.nama);
     }
 }
 
+//fungsi menampilkan semua data
 void tampilkanSemuaData() {
     printf("\n=== Daftar Donatur ===\n");
     for (int i = 0; i < jumlahDonatur; i++) {
-        Donatur *d = &daftarDonatur[i];
         printf("%d. %s - %s - %d - %s\n", i + 1,
-               d->nama, d->jenisMakanan, d->jumlah, d->lokasi);
+               daftarDonatur[i].nama,
+               daftarDonatur[i].jenisMakanan,
+               daftarDonatur[i].jumlah,
+               daftarDonatur[i].lokasi);
     }
 
     printf("\n=== Daftar Penerima ===\n");
     for (int i = 0; i < jumlahPenerima; i++) {
-        Penerima *p = &daftarPenerima[i];
         printf("%d. %s - %s - %d - %s\n", i + 1,
-               p->nama, p->kebutuhan, p->jumlah, p->lokasi);
+               daftarPenerima[i].nama,
+               daftarPenerima[i].kebutuhan,
+               daftarPenerima[i].jumlah,
+               daftarPenerima[i].lokasi);
     }
 }
 
+//fungsi lain (placeholder doang)
 void cocokkanDonasi() {
-    printf("\n=== Proses Pencocokan Massal ===\n");
-    for (int i = 0; i < jumlahPenerima; i++) {
-        printf("\nPenerima %s:\n", daftarPenerima[i].nama);
-        inputPenerima(&daftarPenerima[i]);
-    }
+    printf("Fungsi pencocokan donasi banyak belum diimplementasi.\n");
 }
 
 void tampilkanLaporan() {
-    printf("\n=== Laporan Ringkas ===\n");
-    printf("Jumlah Donatur  : %d\n", jumlahDonatur);
-    printf("Jumlah Penerima : %d\n", jumlahPenerima);
-    // Bisa ditambahkan statistik tambahan di sini
+    printf("Fungsi laporan donasi belum diimplementasi.\n");
 }
 
 int main() {
@@ -139,35 +139,61 @@ int main() {
         printf("1. Tambah Donatur\n");
         printf("2. Tambah Penerima\n");
         printf("3. Lihat Semua Data\n");
-        printf("4. Cocokkan Donasi (Massal)\n");
+        printf("4. Cocokkan Donasi\n");
         printf("5. Tampilkan Laporan Donasi\n");
         printf("0. Keluar\n");
         printf("Pilih opsi (0-5): ");
         scanf("%d", &opsi);
-
+        printf("\n");
         switch (opsi) {
             case 1:
-                inputDonatur();
+                // Untuk Tambah Donatur
                 break;
             case 2:
-                inputPenerima();
+                // Untuk Tambah Penerima
                 break;
             case 3:
-                tampilkanSemuaData();
+                // Untuk Melihat Semua Data
                 break;
             case 4:
-                cocokkanDonasi();
+                // Untuk Mencocokkan Donasi
                 break;
-            case 5:
-                tampilkanLaporan();
+          case 5:
+                // Untuk Menampilkan Donasi
                 break;
-            case 0:
-                printf("Terima kasih telah menggunakan Foodlink!\n");
-                break;
+            case 6:
+                return 0;
             default:
                 printf("Tolong Pilihlah Opsi yang sesuai!\n");
+                break;
         }
     }
 
     return 0;
+}
+void pilihJenisMakanan() {
+    int pilihan;
+    printf("Pilih Jenis Makanan:\n");
+    for (int i = 1; i < 5; i++) {
+        printf("%d. %s\n", i, namaJenisMakanan[i]);
+    }
+    printf("Pilihan: ");
+    scanf("%d", &pilihan);
+    if (pilihan >= 1 && pilihan <= 5) {
+        return (JenisMakanan)pilihan;
+    } else {
+        printf("Pilihan tidak valid, diatur ke 'Lainnya',\n");
+        return LAINNYA;
+    }
+}
+
+void TambahDonatur(Donatur **donaturList, int *jumlahDonatur) {
+    *donaturList = realloc(*donaturList, (*jumlahDonatur + 1) * sizeof(Donatur));
+    Donatur *donatur = &(*donaturList)[*jumlahDonatur];
+    
+    printf("Nama Donatur : ");
+    scanf(" %[^\n]", donatur->namaDonatur);
+    printf("Jenis Makanan : ");
+    scanf(" %[^\n]", donatur->jenisMakanan);
+    *donatur->jenisMakanan = pilihJenisMakanan();
 }
