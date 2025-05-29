@@ -32,6 +32,21 @@ int hitungSkorKecocokan(Penerima *p, Donatur *d) {
     return skor;
 }
 
+
+void cocokkanDonasi() {
+    printf("\n=== Proses Pencocokan Massal ===\n");
+    for (int i = 0; i < jumlahPenerima; i++) {
+        printf("\nPenerima %s:\n", daftarPenerima[i].nama);
+        
+    }
+}
+
+void tampilkanLaporan() {
+    printf("\n=== Laporan Ringkas ===\n");
+    printf("Jumlah Donatur  : %d\n", jumlahDonatur);
+    printf("Jumlah Penerima : %d\n", jumlahPenerima);
+}
+
 void inputDonatur() {
     if (jumlahDonatur >= MAX_DONATUR) {
         printf("Kapasitas maksimum donatur telah tercapai.\n");
@@ -155,6 +170,5 @@ int main() {
                 printf("Tolong Pilihlah Opsi yang sesuai!\n");
         }
     }
-
     return 0;
 }
