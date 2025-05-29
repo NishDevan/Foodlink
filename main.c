@@ -9,6 +9,7 @@ int main() {
         printf("1. Tambah Donatur\n2. Tambah Penerima\n3. Lihat Semua Data\n4. Cocokkan Donasi\n5. Tampilkan Laporan Donasi\n");
         printf("Pilihlah Opsi yang Anda ingin Lakukan (1-5) : ");
         scanf("%d", &opsi);
+        printf("\n");
         switch (opsi) {
             case 1:
                 // Untuk Tambah Donatur
