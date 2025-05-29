@@ -152,15 +152,28 @@ int main() {
         printf("0. Keluar\n");
         printf("Pilih opsi (0-5): ");
         scanf("%d", &opsi);
-
+        printf("\n");
         switch (opsi) {
-            case 1: inputDonatur(); break;
-            case 2: inputPenerima(); break;
-            case 3: tampilkanSemuaData(); break;
-            case 4: cocokkanDonasi(); break;
-            case 5: tampilkanLaporan(); break;
-            case 0: printf("Terima kasih telah menggunakan Foodlink!\n"); break;
-            default: printf("Opsi tidak valid. Coba lagi.\n");
+            case 1:
+                // Untuk Tambah Donatur
+                break;
+            case 2:
+                // Untuk Tambah Penerima
+                break;
+            case 3:
+                // Untuk Melihat Semua Data
+                break;
+            case 4:
+                // Untuk Mencocokkan Donasi
+                break;
+            case 5:
+                // Untuk Menampilkan Laporan Donasi
+                break;
+            case 6:
+                return 0;
+            default:
+                printf("Tolong Pilihlah Opsi yang sesuai!\n");
+                break;
         }
     }
 
