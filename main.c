@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 
-// Constants
+//constants
 #define MAX_DONATUR 100
 #define MAX_PENERIMA 100
 
-// Struktur data
+//simple data structtu
 struct donatur {
     char nama[50];
     char jenisMakanan[50];
@@ -20,14 +20,14 @@ struct penerima {
     char lokasi[50];
 };
 
-// Array dan jumlah data
+//array dan jumlah data
 struct donatur daftarDonatur[MAX_DONATUR];
 int jumlahDonatur = 0;
 
 struct penerima daftarPenerima[MAX_PENERIMA];
 int jumlahPenerima = 0;
 
-// Fungsi untuk menghitung skor kecocokan
+//fungsi untuk menghitung skor kecocokan
 int hitungSkorKecocokan(struct penerima p, struct donatur d) {
     int skor = 0;
     if (strcmp(p.kebutuhan, d.jenisMakanan) == 0) skor++;
@@ -36,7 +36,7 @@ int hitungSkorKecocokan(struct penerima p, struct donatur d) {
     return skor;
 }
 
-// Fungsi menambahkan donatur
+//fungsi menambahkan donatur
 void inputDonatur() {
     if (jumlahDonatur >= MAX_DONATUR) {
         printf("Kapasitas maksimum donatur telah tercapai.\n");
@@ -54,12 +54,12 @@ void inputDonatur() {
     printf("Lokasi             : ");
     scanf(" %[^\n]", d.lokasi);
 
-    daftarDonatur[jumlahDonatur] = d;  // Simpan ke array
-    jumlahDonatur++;                   // Tambah jumlah
+    daftarDonatur[jumlahDonatur] = d;  //simpan ke array
+    jumlahDonatur++;                  
     printf("Donatur berhasil ditambahkan.\n");
 }
 
-// Fungsi menambahkan penerima dan cari donatur paling cocok
+//fungsi menambahkan penerima dan cari donatur paling cocok
 void inputPenerima() {
     if (jumlahPenerima >= MAX_PENERIMA) {
         printf("Kapasitas maksimum penerima telah tercapai.\n");
@@ -77,10 +77,10 @@ void inputPenerima() {
     printf("Lokasi Penerima      : ");
     scanf(" %[^\n]", p.lokasi);
 
-    daftarPenerima[jumlahPenerima] = p;  // Simpan ke array
-    jumlahPenerima++;                    // Tambah jumlah
+    daftarPenerima[jumlahPenerima] = p;  //disimpan ke array
+    jumlahPenerima++;                    //tambah jumlah
 
-    // Cari donatur paling cocok
+    //cari donatur paling cocok
     int maxSkor = -1;
     int indeksTerbaik = -1;
 
@@ -92,7 +92,7 @@ void inputPenerima() {
         }
     }
 
-    // Tampilkan hasil pencocokan
+    //tampilkan hasil pencocokan
     printf("\n=== Hasil Pencocokan ===\n");
     if (indeksTerbaik != -1 && maxSkor > 0) {
         struct donatur d = daftarDonatur[indeksTerbaik];
@@ -107,7 +107,7 @@ void inputPenerima() {
     }
 }
 
-// Fungsi menampilkan semua data
+//fungsi menampilkan semua data
 void tampilkanSemuaData() {
     printf("\n=== Daftar Donatur ===\n");
     for (int i = 0; i < jumlahDonatur; i++) {
@@ -128,7 +128,7 @@ void tampilkanSemuaData() {
     }
 }
 
-// Fungsi lain (placeholder)
+//fungsi lain (placeholder doang)
 void cocokkanDonasi() {
     printf("Fungsi pencocokan donasi banyak belum diimplementasi.\n");
 }
@@ -137,7 +137,6 @@ void tampilkanLaporan() {
     printf("Fungsi laporan donasi belum diimplementasi.\n");
 }
 
-// Fungsi utama
 int main() {
     int opsi = -1;
 
