@@ -24,6 +24,82 @@ int jumlahDonatur = 0;
 Penerima daftarPenerima[MAX_PENERIMA];
 int jumlahPenerima = 0;
 
+int hitungSkorKecocokan(Penerima *p, Donatur *d) {
+    int skor = 0;
+    if (strcmp(p->kebutuhan, d->jenisMakanan) == 0) skor++;
+    if (p->jumlah <= d->jumlah) skor++;
+    if (strcmp(p->lokasi, d->lokasi) == 0) skor++;
+    return skor;
+}
+
+void inputDonatur() {
+    if (jumlahDonatur >= MAX_DONATUR) {
+        printf("Kapasitas maksimum donatur telah tercapai.\n");
+        return;
+    }
+
+    Donatur *d = &daftarDonatur[jumlahDonatur];
+
+    printf("\n=== Input Data Donatur ===\n");
+    printf("Nama Donatur       : ");
+    scanf(" %[^\n]", d->nama);
+    printf("Jenis Makanan      : ");
+    scanf(" %[^\n]", d->jenisMakanan);
+    printf("Jumlah             : ");
+    scanf("%d", &d->jumlah);
+    printf("Lokasi             : ");
+    scanf(" %[^\n]", d->lokasi);
+
+    jumlahDonatur++;                  
+    printf("Donatur berhasil ditambahkan.\n");
+}
+
+void inputPenerima() {
+    if (jumlahPenerima >= MAX_PENERIMA) {
+        printf("Kapasitas maksimum penerima telah tercapai.\n");
+        return;
+    }
+
+    Penerima *p = &daftarPenerima[jumlahPenerima];
+
+    printf("\n=== Input Data Penerima ===\n");
+    printf("Nama Penerima        : ");
+    scanf(" %[^\n]", p->nama);
+    printf("Jenis Makanan Dibutuhkan : ");
+    scanf(" %[^\n]", p->kebutuhan);
+    printf("Jumlah Dibutuhkan    : ");
+    scanf("%d", &p->jumlah);
+    printf("Lokasi Penerima      : ");
+    scanf(" %[^\n]", p->lokasi);
+
+    jumlahPenerima++;
+
+    int maxSkor = -1;
+    Donatur *donaturTerbaik = NULL;
+
+    for (int i = 0; i < jumlahDonatur; i++) {
+        int skor = hitungSkorKecocokan(p, &daftarDonatur[i]);
+        if (skor > maxSkor) {
+            maxSkor = skor;
+            donaturTerbaik = &daftarDonatur[i];
+        }
+    }
+
+    printf("\n=== Hasil Pencocokan ===\n");
+    if (indeksTerbaik != -1 && maxSkor > 0) {
+        struct donatur d = daftarDonatur[indeksTerbaik];
+        printf("Penerima \"%s\" cocok dengan donatur:\n", p.nama);
+        printf("Nama Donatur : %s\n", d.nama);
+        printf("Jenis        : %s\n", d.jenisMakanan);
+        printf("Jumlah       : %d\n", d.jumlah);
+        printf("Lokasi       : %s\n", d.lokasi);
+        printf("Skor Kecocokan: %d dari 3\n", maxSkor);
+    } else {
+        printf("Tidak ditemukan donatur yang cocok untuk \"%s\".\n", p.nama);
+    }
+}
+
+//fungsi menampilkan semua data
 void tampilkanSemuaData() {
     printf("\n=== Daftar Donatur ===\n");
     for (int i = 0; i < jumlahDonatur; i++) {
