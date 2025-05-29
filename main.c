@@ -5,7 +5,7 @@
 #define MAX_DONATUR 100
 #define MAX_PENERIMA 100
 
-//simple data structtu
+//simple data structure
 struct donatur {
     char nama[50];
     char jenisMakanan[50];
@@ -166,8 +166,8 @@ int main() {
             case 4:
                 // Untuk Mencocokkan Donasi
                 break;
-            case 5:
-                // Untuk Menampilkan Laporan Donasi
+          case 5:
+                // Untuk Menampilkan Donasi
                 break;
             case 6:
                 return 0;
@@ -178,4 +178,30 @@ int main() {
     }
 
     return 0;
+}
+void pilihJenisMakanan() {
+    int pilihan;
+    printf("Pilih Jenis Makanan:\n");
+    for (int i = 1; i < 5; i++) {
+        printf("%d. %s\n", i, namaJenisMakanan[i]);
+    }
+    printf("Pilihan: ");
+    scanf("%d", &pilihan);
+    if (pilihan >= 1 && pilihan <= 5) {
+        return (JenisMakanan)pilihan;
+    } else {
+        printf("Pilihan tidak valid, diatur ke 'Lainnya',\n");
+        return LAINNYA;
+    }
+}
+
+void TambahDonatur(Donatur **donaturList, int *jumlahDonatur) {
+    *donaturList = realloc(*donaturList, (*jumlahDonatur + 1) * sizeof(Donatur));
+    Donatur *donatur = &(*donaturList)[*jumlahDonatur];
+    
+    printf("Nama Donatur : ");
+    scanf(" %[^\n]", donatur->namaDonatur);
+    printf("Jenis Makanan : ");
+    scanf(" %[^\n]", donatur->jenisMakanan);
+    *donatur->jenisMakanan = pilihJenisMakanan();
 }
