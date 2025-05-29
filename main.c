@@ -28,17 +28,11 @@ int hitungSkorKecocokan(Penerima *p, Donatur *d) {
     return 0;
 }
 
-void inputDonatur() {}
-
-void inputPenerima() {}
-
-void tampilkanSemuaData() {}
-
 void cocokkanDonasi() {
     printf("\n=== Proses Pencocokan Massal ===\n");
     for (int i = 0; i < jumlahPenerima; i++) {
         printf("\nPenerima %s:\n", daftarPenerima[i].nama);
-        // proses pencocokan di sini, jika dibutuhkan
+        
     }
 }
 
@@ -66,13 +60,13 @@ int main() {
 
         switch (opsi) {
             case 1:
-                inputDonatur();
+                
                 break;
             case 2:
-                inputPenerima();
+                
                 break;
             case 3:
-                tampilkanSemuaData();
+                
                 break;
             case 4:
                 cocokkanDonasi();
